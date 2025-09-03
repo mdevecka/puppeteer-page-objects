@@ -1,0 +1,33 @@
+{
+  "name": "puppeteer-page-objects",
+  "version": "1.0.0",
+  "author": "Marian Devecka",
+  "license": "MIT",
+  "description": "Provides a set of base page objects and utilities that can be used with Puppeteer.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mdevecka/puppeteer-page-objects"
+  },
+  "keywords": [
+    "typescript",
+    "puppeteer",
+    "testing",
+    "page object"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "build-pack": "tsc && node copy-files.mjs && cd dist && npm pack && cd ..",
+    "build-publish": "tsc && node copy-files.mjs && cd dist && npm publish && cd ..",
+    "format": "tsfmt -r --useTsconfig tsconfig.lint.json",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix"
+  },
+  "devDependencies": {
+    "@types/node": "^22.7.4",
+    "@typescript-eslint/eslint-plugin": "^8.8.0",
+    "@typescript-eslint/parser": "^8.8.0",
+    "eslint": "^9.11.1",
+    "puppeteer": "^24.15.0",
+    "typescript": "^5.6.2",
+    "typescript-formatter": "^7.2.2"
+  }
+}

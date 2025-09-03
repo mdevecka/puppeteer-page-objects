@@ -1,0 +1,27 @@
+{
+  "name": "puppeteer-page-objects",
+  "version": "1.0.0",
+  "author": "Marian Devecka",
+  "license": "MIT",
+  "description": "Provides a set of base page objects and utilities that can be used with Puppeteer.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mdevecka/puppeteer-page-objects"
+  },
+  "keywords": [
+    "typescript",
+    "puppeteer",
+    "testing",
+    "page object"
+  ],
+  "main": "./index.js",
+  "types": "./index.d.ts",
+  "peerDependencies": {
+    "puppeteer": ">=24.0.0"
+  },
+  "sideEffects": false,
+  "files": [
+    "*.js",
+    "*.d.ts"
+  ]
+}
