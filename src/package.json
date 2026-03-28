@@ -1,6 +1,6 @@
 {
   "name": "puppeteer-page-objects",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": "Marian Devecka",
   "license": "MIT",
   "description": "Provides a set of base page objects and utilities that can be used with Puppeteer.",
