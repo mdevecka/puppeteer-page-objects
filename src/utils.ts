@@ -5,6 +5,12 @@ export interface WaitUntilOptions {
   timeout?: number;
 }
 
+export interface RetryActionOptions {
+  sleepTime?: number;
+  timeout?: number;
+  times?: number;
+}
+
 export function wait(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -29,7 +35,7 @@ export async function waitUntil(funcs: (() => PV<boolean>) | (() => PV<boolean>)
   return Promise.all(pro);
 }
 
-async function _retry(func: () => void, opt?: WaitUntilOptions) {
+async function _retry(func: () => PV<any>, opt?: WaitUntilOptions) {
   const sleepTime = opt?.sleepTime ?? 50;
   const timeout = opt?.timeout ?? 5000;
   const cycles = Math.ceil(timeout / sleepTime);
@@ -47,10 +53,33 @@ async function _retry(func: () => void, opt?: WaitUntilOptions) {
   throw new Error(`invalid arguments`);
 }
 
-export async function retry(func: (() => void) | (() => void)[], opt?: WaitUntilOptions) {
+export async function retry(func: (() => PV<any>) | (() => PV<any>)[], opt?: WaitUntilOptions) {
   if (!Array.isArray(func))
     return _retry(func, opt);
   return Promise.all(func.map(f => _retry(f, opt)));
+}
+
+export async function retryAction(action: () => Promise<any>, testFunc: () => Promise<any>, opt?: RetryActionOptions) {
+  const times = opt?.times || 5;
+  const sleepTime = opt?.sleepTime ?? 50;
+  const timeout = opt?.timeout ?? 150;
+  const cycles = timeout / sleepTime;
+  for (let j = 0; j < times; j++) {
+    await action();
+    return;
+    for (let i = 0; i < cycles; i++) {
+      try {
+        await testFunc();
+        return;
+      }
+      catch (err) {
+        await wait(sleepTime);
+        if (i === cycles - 1 && j === times - 1)
+          throw err;
+      }
+    }
+  }
+  throw new Error(`invalid arguments`);
 }
 
 export async function equals<T>(value1: PV<T>, value2: PV<T>): Promise<boolean> {
